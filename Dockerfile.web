@@ -1,0 +1,26 @@
+# Base Image
+FROM heroku/heroku:18
+
+# Set execution environment
+ADD requirements /requirements
+ADD ./.profile.d /app/.profile.d
+
+
+# Install dependencies from repository
+RUN apt-get upgrade python3
+RUN apt-get update && apt-get install -y python3-pip python3-venv vim
+RUN /bisl/bin/python -m venv --upgrade /bisl
+RUN /bisl/bin/pip install -U pip && LIBRARY_PATH=/lib:/usr/lib /bisl/bin/pip install --no-cache-dir -r /requirements/prod.txt
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+# Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
+RUN mkdir /code/
+WORKDIR /code/
+ADD . /code/
+
+ENV IN_DOCKER=True
+
+RUN /bisl/bin/python manage.py collectstatic --noinput
+CMD /bisl/bin/gunicorn config.wsgi
+

@@ -1,0 +1,16 @@
+setup:
+  addons:
+    - plan: 'papertrail:choklad'
+      as: PAPERTRAIL
+    - plan: 'heroku-postgresql:hobby-dev'
+      as: DATABASE
+build:
+  docker:
+    web: Dockerfile
+release:
+  image: web
+  command:
+    - /bisl/bin/python manage.py migrate
+run:
+  web: /bisl/bin/gunicorn config.wsgi
+
