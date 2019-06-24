@@ -2,7 +2,7 @@
 FROM python:3-alpine
 
 # Set execution environment
-ADD requirements /requirements
+COPY requirements /requirements
 
 # Install dependencies from repository
 RUN set -ex \
@@ -37,7 +37,7 @@ RUN apk add --no-cache \
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /code/
 WORKDIR /code/
-ADD . /code/
+COPY . /code/
 
 ENV IN_DOCKER=True
 

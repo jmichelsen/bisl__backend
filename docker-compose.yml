@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: bisl
-    command: "/venv/bin/python manage.py runserver 0.0.0.0:8009"
+    command: "/bisl/bin/python manage.py runserver 0.0.0.0:8009"
     ports:
     - "8009:8009"
     restart: always

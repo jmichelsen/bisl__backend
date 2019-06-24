@@ -2,8 +2,8 @@
 FROM heroku/heroku:18
 
 # Set execution environment
-ADD requirements /requirements
-ADD ./.profile.d /app/.profile.d
+COPY requirements /requirements
+COPY ./.profile.d /app/.profile.d
 
 
 # Install dependencies from repository
@@ -17,7 +17,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /code/
 WORKDIR /code/
-ADD . /code/
+COPY . /code/
 
 ENV IN_DOCKER=True
 
