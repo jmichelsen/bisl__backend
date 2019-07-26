@@ -34,6 +34,8 @@ INSTALLED_APPS = [
 
     # local apps
     'common',
+    'comments',
+    'recipes',
 
     # third party
 ]
