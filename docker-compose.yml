@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  bisl_db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: bisl
+      POSTGRES_USER: bisl
+      POSTGRES_PASSWORD: bisl
+    volumes:
+      - /var/run/bisl-postgres-data:/var/lib/postgresql/data
+
+  bisl:
+    depends_on:
+      - bisl_db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bisl
+    command: "/bisl/bin/python manage.py runserver 0.0.0.0:8009"
+    ports:
+    - "8009:8009"
+    restart: always
+    volumes:
+      - .:/code
+    working_dir: /code
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.dev
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PSQL_HOST=bisl_db
+      - PSQL_NAME=bisl
+      - PSQL_USERNAME=bisl
+      - PSQL_PASSWORD=bisl
+

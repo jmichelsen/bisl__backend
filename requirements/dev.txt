@@ -1,0 +1,8 @@
+-r base.txt  # includes base requirements
+
+django-debug-toolbar==2.0
+django-extensions==2.1.9
+isort==4.3.20
+ipython==7.5.0
+ipython-genutils==0.2.0
+
