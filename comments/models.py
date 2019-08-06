@@ -1,5 +1,8 @@
+# Django
 from django.conf import settings
 from django.db import models
+
+# local Django
 from common.mixins.model import TimestampMixin
 
 # Create your models here.
