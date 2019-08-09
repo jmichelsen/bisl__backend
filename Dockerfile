@@ -1,5 +1,5 @@
 # Base Image
-FROM python:3-alpine
+FROM python:3.6.5-alpine
 
 # Set execution environment
 COPY requirements /requirements
@@ -16,6 +16,7 @@ RUN set -ex \
             postgresql-dev \
             jpeg-dev \
             zlib-dev \
+            libffi-dev \
     && python -m venv --upgrade /bisl \
     && /bisl/bin/pip install -U pip \
     && LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "/bisl/bin/pip install --no-cache-dir -r /requirements/prod.txt" \
