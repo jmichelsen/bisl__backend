@@ -21,7 +21,7 @@ class RecipeTestCase(TestCase):
         actual = Recipe.objects.get(title='test_title').__str__()
         self.assertEquals(expected, actual)
 
-     def test_title_max_length(self):
+    def test_title_max_length(self):
         max_length = Recipe._meta.get_field('title').max_length
         self.assertEquals(max_length, 100)
 
