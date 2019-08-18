@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.db import models
 
+from common.models import BaseModel
+
 
 class Comment(BaseModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
