@@ -153,6 +153,7 @@ class Nutrition(BaseModel):
     """
     Nutrition facts for a recipe
     """
+    recipe = models.OneToOneField('recipes.Recipe', models.CASCADE, null=True)
     calories = MeasurementField(measurement=Energy, default=0)
     total_fat = MeasurementField(measurement=Volume, default=0)
     saturated_fat = MeasurementField(measurement=Volume, default=0)
