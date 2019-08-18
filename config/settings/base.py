@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'recipes',
 
     # third party
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
