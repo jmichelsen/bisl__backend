@@ -47,41 +47,17 @@ class Recipe(BaseModel):
     def vote_objects(self):
         return self.votes.through.objects.filter(recipe=self)
 
-    def upvote(self, user):
-        """
-        Toggle vote either up (True) or to neutral
-
-        :param user: User casting the vote
-        :type user: User
-        :return: None
-        """
-        try:
-            vote = self.vote_objects.get(user=user)
-            if vote.up is True:
-                vote.up = None
-            else:
-                vote.up = True
-            vote.save()
-        except Vote.DoesNotExist:
-            Vote.objects.create(user=user, recipe=self, up=True)
-
-    def downvote(self, user):
+    def cast_vote(self, user, up=None):
         """
         Toggle vote either down (False) or to neutral
 
         :param user: User casting the vote
         :type user: User
+        :param up: the value of the vote; True, False, or None
+        :type: bool
         :return: None
         """
-        try:
-            vote = self.vote_objects.get(user=user)
-            if vote.up is False:
-                vote.up = None
-            else:
-                vote.up = False
-            vote.save()
-        except Vote.DoesNotExist:
-            Vote.objects.create(user=user, recipe=self, up=False)
+        Vote.objects.update_or_create(user=user, recipe=self, up=up)
 
     @cached_property
     def total_time_required(self):
@@ -97,10 +73,10 @@ class Recipe(BaseModel):
         """
         Multiple the ingredients for a custom
 
-        :return: an ephemeral Recipe object with custom yield applied
-        :rtype: Recipe instance
+        :return: new serialized recipe object with the custom yield calculated into it
+        :rtype: json
         """
-        from recipes.serializers import MultipliedRecipeSerializer
+        from recipes.serializers import MultipliedRecipeSerializer  # imported here to avoid circular import
 
         if not desired_yield:
             return self
@@ -128,6 +104,9 @@ class Vote(BaseModel):
     recipe = models.ForeignKey('recipes.Recipe', models.CASCADE)
     user = models.ForeignKey(AUTH_USER_MODEL, models.CASCADE)
     up = models.BooleanField(null=True)
+
+    class Meta:
+        unique_together = ('user', 'recipe')
 
 
 class Step(BaseModel):
