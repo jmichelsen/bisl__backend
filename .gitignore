@@ -103,4 +103,7 @@ ENV/
 # pycharm
 .idea/
 
+# vscode
+.vscode/
+
 secrets.json
