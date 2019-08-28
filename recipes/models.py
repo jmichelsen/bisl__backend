@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 # Django
 from django.db import models
 
@@ -13,7 +15,7 @@ class Recipe(TimestampMixin, models.Model):
     title = models.CharField(max_length=100)
     ingredients = models.TextField(max_length=2000)
     preparation_process = models.TextField()
-    preparation_time = models.DurationField()
+    preparation_time = models.DurationField(default=timedelta)
     number_of_portions = models.PositiveIntegerField(default=1)
     difficulty = models.SmallIntegerField(choices=DIFFICULTY_CHOICES)
 
