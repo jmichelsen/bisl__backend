@@ -1,0 +1,36 @@
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: jmichelsen/bisl_backend:latest
+      - image: postgres:alpine
+        environment:
+          POSTGRES_PASSWORD: bisl
+          POSTGRES_USER: bisl
+          POSTGRES_DB: bisl
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.dev
+      PSQL_HOST: localhost
+      PSQL_NAME: bisl
+      PSQL_USERNAME: bisl
+      PSQL_PASSWORD: bisl
+    working_directory: /code
+    steps:
+      - run:
+          name: Waiting for Postgres to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgress && exit 1
+      - run:
+          name: Run unit tests
+          environment:
+            DJANGO_SETTINGS_MODULE: config.settings.test
+          command: |
+            set -ou pipefail
+            /bisl/bin/python manage.py test
