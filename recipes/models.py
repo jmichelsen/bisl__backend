@@ -7,11 +7,8 @@ from django.db import models
 from common.mixins.model import TimestampMixin
 from .constants import DIFFICULTY_CHOICES
 
-# Create your models here.
-
 
 class Recipe(TimestampMixin, models.Model):
-
     title = models.CharField(max_length=100)
     ingredients = models.TextField(max_length=2000)
     preparation_process = models.TextField()
