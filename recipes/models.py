@@ -76,7 +76,8 @@ class Recipe(BaseModel):
         :return: new serialized recipe object with the custom yield calculated into it
         :rtype: json
         """
-        from recipes.serializers import MultipliedRecipeSerializer  # imported here to avoid circular import
+        # imported here to avoid circular import
+        from recipes.serializers import MultipliedRecipeSerializer
 
         if not desired_yield:
             return self
