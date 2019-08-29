@@ -33,4 +33,4 @@ jobs:
             DJANGO_SETTINGS_MODULE: config.settings.test
           command: |
             set -ou pipefail
-            /bisl/bin/python manage.py test
+            python manage.py test

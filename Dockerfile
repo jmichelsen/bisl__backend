@@ -40,8 +40,7 @@ RUN mkdir /code/
 WORKDIR /code/
 COPY . /code/
 
-ENV IN_DOCKER=True
+ENV IN_DOCKER=True PATH="/usr/sbin:/usr/bin:/sbin:/bin:/bisl/bin"
 
-RUN /bisl/bin/python manage.py collectstatic --noinput
-CMD /bisl/bin/gunicorn config.wsgi
-
+RUN python manage.py collectstatic --noinput
+CMD gunicorn config.wsgi

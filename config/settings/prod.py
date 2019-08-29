@@ -21,4 +21,3 @@ SECURE_SSL_HOST = 'bisl.com'
 DATABASES = {'default': dj_database_url.config(conn_max_age=500)}
 
 django_heroku.settings(locals(), logging=False, staticfiles=False)
-
