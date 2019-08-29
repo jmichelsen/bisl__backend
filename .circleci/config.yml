@@ -1,7 +1,9 @@
+version: 2.1
 
-version: 2
-jobs:
-  build:
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: jmichelsen/bisl_backend
     docker:
       - image: jmichelsen/bisl_backend:latest
       - image: postgres:alpine
@@ -9,6 +11,9 @@ jobs:
           POSTGRES_PASSWORD: bisl
           POSTGRES_USER: bisl
           POSTGRES_DB: bisl
+jobs:
+  build:
+    executor: docker-publisher
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.dev
       PSQL_HOST: localhost
@@ -17,6 +22,9 @@ jobs:
       PSQL_PASSWORD: bisl
     working_directory: /code
     steps:
+      - run:
+         command: |
+          apk add --update ca-certificates openssl && update-ca-certificates
       - run:
           name: Waiting for Postgres to be ready
           command: |
@@ -33,4 +41,46 @@ jobs:
             DJANGO_SETTINGS_MODULE: config.settings.test
           command: |
             set -ou pipefail
-            python manage.py test
+            mkdir /tmp/test-results
+            python manage.py test > /tmp/test-results/stdout.txt
+  create-package:
+    executor: docker-publisher
+    steps:
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $IMAGE_NAME:latest .
+      - run:
+          name: Archive Docker Image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+  publish-latest:
+    executor: docker-publisher
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+workflows:
+  build-master:
+    jobs:
+      - build
+      - create-package:
+          filters:
+            branches:
+              only: master
+      - publish-latest:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
