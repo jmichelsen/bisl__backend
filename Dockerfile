@@ -19,7 +19,7 @@ RUN set -ex \
             libffi-dev \
     && python -m venv --upgrade /bisl \
     && /bisl/bin/pip install -U pip \
-    && LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "/bisl/bin/pip install --no-cache-dir -r /requirements/prod.txt" \
+    && LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "/bisl/bin/pip install --no-cache-dir -r /requirements/dev.txt" \
     && run_deps="$( \
             scanelf --needed --nobanner --recursive /bisl \
                     | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
@@ -33,15 +33,15 @@ RUN set -ex \
 RUN apk add --no-cache \
     curl \
     openssh \
-    bash
+    bash \
+    git
 
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /code/
 WORKDIR /code/
 COPY . /code/
 
-ENV IN_DOCKER=True
+ENV IN_DOCKER=True PATH="/usr/sbin:/usr/bin:/sbin:/bin:/bisl/bin"
 
-RUN /bisl/bin/python manage.py collectstatic --noinput
-CMD /bisl/bin/gunicorn config.wsgi
-
+RUN python manage.py collectstatic --noinput
+CMD gunicorn config.wsgi

@@ -37,11 +37,11 @@ Docker is the primary supported setup for development. This setup uses docker co
         
     Or try running the unit tests through Django directly
     
-        $ docker-compose run --rm bisl /bisl/bin/python manage.py test --settings=config.settings.test --failfast --noinput
+        $ docker-compose run --rm bisl python manage.py test --settings=config.settings.test --failfast --noinput
         
     You may need to run the migration scripts from time to time
     
-        $ docker-compose run --rm bisl /bisl/bin/python manage.py migrate
+        $ docker-compose run --rm bisl python manage.py migrate
     
 6. An explanation of the command line parameters:
         

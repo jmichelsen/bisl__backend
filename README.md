@@ -2,9 +2,9 @@ Deploying with heroku:
 
 git push heroku master
 heroku run sh
-heroku run /bisl/bin/python manage.py collectstatic --noinput
-heroku run /bisl/bin/python manage.py migrate
-heroku run /bisl/bin/gunicorn config.wsgi
+heroku run python manage.py collectstatic --noinput
+heroku run python manage.py migrate
+heroku run gunicorn config.wsgi
 
 For heroku docker deploy, see x
 
