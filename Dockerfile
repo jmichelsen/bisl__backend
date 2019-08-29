@@ -33,7 +33,8 @@ RUN set -ex \
 RUN apk add --no-cache \
     curl \
     openssh \
-    bash
+    bash \
+    git
 
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /code/
