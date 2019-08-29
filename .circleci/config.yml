@@ -35,8 +35,13 @@ jobs:
           DJANGO_SETTINGS_MODULE: config.settings.test
         command: |
           set -ou pipefail
-          mkdir /tmp/test-results
-          python manage.py test > /tmp/test-results/stdout.txt
+          mkdir test_results
+          pytest --junitxml=test_reports/junit.xml
+    - store_test_results:
+        path: test_reports
+    - store_artifacts:
+        path: test_reports
+
   package_and_publish:
     docker:
     - image: jmichelsen/bisl_backend
