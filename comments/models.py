@@ -2,14 +2,10 @@
 from django.conf import settings
 from django.db import models
 
-# local Django
-from common.mixins.model import TimestampMixin
-
-# Create your models here.
+from common.models import BaseModel
 
 
-class Comment(TimestampMixin, models.Model):
-
+class Comment(BaseModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE)
     text = models.TextField()

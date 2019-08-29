@@ -1,6 +1,7 @@
 import json
 import os
 
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from django.template.loader import get_template
 
@@ -42,3 +43,14 @@ def render_to_template(template_name, context=None):
         context = dict()
     template = get_template(template_name)
     return template.render(context)
+
+
+def get_system_user():
+    """
+    Return the user object used by the system
+
+    :return: the User object associated with the system
+    :rtype: User
+    """
+    user, _ = get_user_model().objects.get_or_create(username='chef_robot')
+    return user

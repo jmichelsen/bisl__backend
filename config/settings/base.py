@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'recipes',
 
     # third party
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -166,4 +167,3 @@ LOGGING = {
 # API Configs
 #############
 set_env_from_secrets()
-
