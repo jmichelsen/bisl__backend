@@ -36,7 +36,7 @@ jobs:
         command: |
           set -ou pipefail
           mkdir test_results
-          pytest --junitxml=test_reports/junit.xml
+          pytest --cov --junitxml=test_reports/junit.xml
     - store_test_results:
         path: test_reports
     - store_artifacts:
