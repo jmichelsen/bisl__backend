@@ -1,36 +1,86 @@
-
 version: 2
+
 jobs:
   build:
     docker:
-      - image: jmichelsen/bisl_backend:latest
-      - image: postgres:alpine
-        environment:
-          POSTGRES_PASSWORD: bisl
-          POSTGRES_USER: bisl
-          POSTGRES_DB: bisl
+    - image: jmichelsen/bisl_backend:latest
+    - image: postgres:alpine
+      environment:
+        POSTGRES_PASSWORD: bisl
+        POSTGRES_USER: bisl
+        POSTGRES_DB: bisl
     environment:
-      DJANGO_SETTINGS_MODULE: config.settings.dev
-      PSQL_HOST: localhost
-      PSQL_NAME: bisl
-      PSQL_USERNAME: bisl
-      PSQL_PASSWORD: bisl
+    - IMAGE_NAME: jmichelsen/bisl_backend
+    - DJANGO_SETTINGS_MODULE: config.settings.dev
+    - PSQL_HOST: localhost
+    - PSQL_NAME: bisl
+    - PSQL_USERNAME: bisl
+    - PSQL_PASSWORD: bisl
     working_directory: /code
     steps:
-      - run:
-          name: Waiting for Postgres to be ready
-          command: |
-            for i in `seq 1 10`;
-            do
-              nc -z localhost 5432 && echo Success && exit 0
-              echo -n .
-              sleep 1
-            done
-            echo Failed waiting for Postgress && exit 1
-      - run:
-          name: Run unit tests
-          environment:
-            DJANGO_SETTINGS_MODULE: config.settings.test
-          command: |
-            set -ou pipefail
-            /bisl/bin/python manage.py test
+    - checkout
+    - run:
+        name: Waiting for Postgres to be ready
+        command: |
+          for i in `seq 1 10`;
+          do
+            nc -z localhost 5432 && echo Success && exit 0
+            echo -n .
+            sleep 1
+          done
+          echo Failed waiting for Postgress && exit 1
+    - run:
+        name: Run unit tests
+        environment:
+          DJANGO_SETTINGS_MODULE: config.settings.test
+        command: |
+          set -ou pipefail
+          mkdir test_results
+          pytest --cov --junitxml=test_reports/junit.xml
+    - store_test_results:
+        path: test_reports
+    - store_artifacts:
+        path: test_reports
+
+  package_and_publish:
+    docker:
+    - image: jmichelsen/bisl_backend
+    environment:
+      - IMAGE_NAME: jmichelsen/bisl_backend
+    steps:
+    - checkout
+    - run:
+        name: Install Docker client
+        command: |
+          set -x
+          VER="18.06.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
+    - setup_remote_docker
+    - run:
+        name: Build Docker Image
+        command: |
+          which docker
+          docker build -t $IMAGE_NAME:latest .
+    - run:
+        name: Publish Docker Image to Docker Hub
+        command: |
+          echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          docker push $IMAGE_NAME:latest
+    - run:
+        name: Deploy Docker image to Heroku
+        command: |
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
+workflows:
+  version: 2
+  build_and_publish:
+    jobs:
+    - build
+    - package_and_publish:
+        requires:
+          - build
+        filters:
+          branches:
+            only: master
