@@ -10,7 +10,10 @@ class RecipeTestCase(TestCase):
         get_user_model().objects.create(username='test_user')
         create(Recipe, {'title': 'test_title'})
 
-    def test_string(self):
+    def test_str(self):
+        """
+        Validate the __str__ output is the Recipe.title value
+        """
         expected = 'test_title'
         actual = Recipe.objects.get(title='test_title').__str__()
         self.assertEqual(expected, actual)

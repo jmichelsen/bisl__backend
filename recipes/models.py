@@ -1,13 +1,13 @@
 from datetime import timedelta
 
-# Django
+# third-party
 from django.conf.global_settings import AUTH_USER_MODEL
 from django.db import models
 from django.utils.functional import cached_property
 from django_measurement.models import MeasurementField
 from measurement.measures import Volume, Weight, Energy
 
-# local app
+# local
 from common.models import BaseModel
 from common.utils import get_system_user
 from recipes.constants import DIFFICULTY_CHOICES
@@ -208,3 +208,4 @@ RECOMMENDED_DAILY_VALUE = Nutrition(
     molybdenum=Weight(microgram=75),
     chloride=Weight(milligram=3400)
 )
+
