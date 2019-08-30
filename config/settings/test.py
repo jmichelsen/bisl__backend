@@ -17,4 +17,3 @@ DATABASES = {
         'PASSWORD': get_env_variable('PSQL_USERNAME'),
     }
 }
-

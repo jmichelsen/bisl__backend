@@ -1,19 +1,14 @@
-from datetime import timedelta
-
+from django.contrib.auth import get_user_model
 from django.test import TestCase
+from fixtureless.factory import create
 
 from recipes.models import Recipe
 
 
 class RecipeTestCase(TestCase):
     def setUp(self):
-        Recipe.objects.create(
-            title='test_title',
-            ingredients='test_ingredients',
-            preparation_process='test_prep',
-            preparation_time=timedelta(minutes=20),
-            number_of_portions=2,
-            difficulty=1)
+        get_user_model().objects.create(username='test_user')
+        create(Recipe, {'title': 'test_title'})
 
     def test_str(self):
         """
