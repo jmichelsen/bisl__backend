@@ -15,7 +15,8 @@ Oh, and the name Bisl comes from the Yiddish word that mean, "a little bit of so
 ## Build status
 
 ![CircleCI](https://img.shields.io/circleci/build/github/jmichelsen/bisl__backend?logo=circleci&style=for-the-badge&token=a03eab67c6f91209061f4e2d7f720e1fd6347ba2)
-![Codacy grade](https://img.shields.io/codacy/grade/45ccdf48b3ed40e9af8b975590120f56?logo=codacy&style=for-the-badge)
+![Codacy grade](https://img.shields.io/codacy/grade/ec793dad8579484a8917626e98989507?logo=codacy&style=for-the-badge)
+![Codacy coverage](https://img.shields.io/codacy/coverage/ec793dad8579484a8917626e98989507?logo=codacy&style=for-the-badge)
 
 ## Code style
 This project strictly follows Python PEP8 and Django coding standards. In addition, industry best practices are followed closely. Read more about best practices and processes in the [project docs](https://github.com/jmichelsen/bisl__backend/tree/master/docs) 
@@ -30,6 +31,9 @@ To be added
 - [Django REST Framework](https://www.django-rest-framework.org/) for the API
 - [CircleCI](https://circleci.com/) for continuous integration and deployment
 - [Heroku](https://heroku.com/) for hosting
+
+## Continuous Integregation ad Deployment
+Info about how this is set up
 
 ## General Design
 To be added
