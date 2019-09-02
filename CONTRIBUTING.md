@@ -13,7 +13,7 @@ If you are familiar with these tools you shouldn't have any problem running, tes
 Please read all of the [docs in the project](https://github.com/jmichelsen/bisl__backend/tree/master/docs) before contributing. 
 
 ## Issues
-If you encounter a bug or would like to suggest enhancemens, please open a [new issue](https://github.com/jmichelsen/bisl__backend/issues)
+If you encounter a bug or would like to suggest enhancements, please open a [new issue](https://github.com/jmichelsen/bisl__backend/issues)
 
 Provide as much detail as you are able when opening new issues.
 
