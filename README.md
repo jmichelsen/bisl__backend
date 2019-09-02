@@ -14,7 +14,7 @@ Oh, and the name Bisl comes from the Yiddish word that mean, "a little bit of so
 
 ## Build status
 
-![CircleCI](https://img.shields.io/circleci/build/github/jmichelsen/bisl__backend?logo=circleci)
+![CircleCI](https://img.shields.io/circleci/build/github/jmichelsen/bisl__backend?logo=circleci&style=for-the-badge&token=a03eab67c6f91209061f4e2d7f720e1fd6347ba2)
 
 ## Code style
 This project strictly follows Python PEP8 and Django coding standards. In addition, industry best practices are followed closely. Read more about best practices and processes in the [project docs](https://github.com/jmichelsen/bisl__backend/tree/master/docs) 
