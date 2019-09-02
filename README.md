@@ -27,10 +27,10 @@ To be added
 ## Tech/framework used
 
 <b>Built with</b>
-- [Django](https://www.djangoproject.com/) for recipe management
-- [Django REST Framework](https://www.django-rest-framework.org/) for the API
-- [CircleCI](https://circleci.com/) for continuous integration and deployment
-- [Heroku](https://heroku.com/) for hosting
+  - [Django](https://www.djangoproject.com/) for recipe management
+  - [Django REST Framework](https://www.django-rest-framework.org/) for the API
+  - [CircleCI](https://circleci.com/) for continuous integration and deployment
+  - [Heroku](https://heroku.com/) for hosting
 
 ## Continuous Integregation ad Deployment
 Info about how this is set up

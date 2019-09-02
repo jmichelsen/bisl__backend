@@ -22,10 +22,11 @@ The product road map can be found in the [project board](https://github.com/jmic
 ## Pull Requests
 Pull Requests are always welcome. 
 
-1. Pull requests must have a passing build (passing tests, and linter) to be approved
-2. Ensure the PR description clearly describes the problem and solution. It should include:
-   * A summary of the changes being proposed
-   * An estimated priority (low/medium/high)
-   * An appropriate tag (bugfix, enhancement)
-   * A description of smoke testing procedure one could follow
-   * A reference Issue that is being addressed. If one doesn't exist, add one first
+ 1. Pull requests must have a passing build (passing tests, and linter) to be approved
+
+ 2. Ensure the PR description clearly describes the problem and solution. It should include:
+     * A summary of the changes being proposed
+     * An estimated priority (low/medium/high)
+     * An appropriate tag (bugfix, enhancement)
+     * A description of smoke testing procedure one could follow
+     * A reference Issue that is being addressed. If one doesn't exist, add one first
