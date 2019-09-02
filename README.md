@@ -56,6 +56,8 @@ $ docker-compose run --rm bisl pytest
 ## Contribute
 Contributions are always welcome! Please read the [contributing guideline](CONTRIBUTING.md) first.
 
+![GitHub contributors](https://img.shields.io/github/contributors/jmichelsen/bisl__backend?logo=github&style=for-the-badge)
+
 ## Credits
 Built by [Jesse Michelsen](https://github.com/jmichelsen), [Jmast](https://github.com/jmast02), [Clem](https://github.com/ClemSau)
 
