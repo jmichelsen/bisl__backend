@@ -56,7 +56,7 @@ $ docker-compose run --rm bisl pytest
 Contributions are always welcome! Please read the [contributing guideline](CONTRIBUTING.md) first.
 
 ## Credits
-Built by [Jesse Michelsen](https://github.com/jmichelsen), [Jmast](https://github.com/jmast02), 
+Built by [Jesse Michelsen](https://github.com/jmichelsen), [Jmast](https://github.com/jmast02), [Clem](https://github.com/ClemSau)
 
 ## License
 GNU General Public License v3.0
