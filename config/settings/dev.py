@@ -1,6 +1,7 @@
 # flake8: noqa
 from config.settings.base import *
 
+SECRET_KEY = 'not so secret, only used for docker commands locally'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
