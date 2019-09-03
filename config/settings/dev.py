@@ -1,3 +1,4 @@
+# flake8: noqa
 from config.settings.base import *
 
 DEBUG = True
@@ -14,6 +15,6 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS += [  # noqa: F405
+INSTALLED_APPS += [
     'django_extensions',
 ]

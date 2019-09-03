@@ -1,3 +1,4 @@
+# flake8: noqa
 import logging
 
 from config.settings.base import *

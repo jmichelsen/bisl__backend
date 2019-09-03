@@ -3,7 +3,7 @@ Common views
 """
 from django.http import JsonResponse
 from django.views.generic import View
-from django.views.generic.base import ContextMixin, TemplateView
+from django.views.generic.base import ContextMixin
 
 
 class HealthCheck(ContextMixin, View):

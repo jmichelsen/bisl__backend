@@ -1,3 +1,4 @@
+# flake8: noqa
 import django_heroku
 import dj_database_url
 

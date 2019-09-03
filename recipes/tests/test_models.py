@@ -5,8 +5,9 @@ from fixtureless.factory import create
 from recipes.models import Recipe
 
 
-class RecipeTestCase(TestCase):
+class TestRecipe(TestCase):
     def setUp(self):
+        super().setUp()
         get_user_model().objects.create(username='test_user')
         create(Recipe, {'title': 'test_title'})
 
