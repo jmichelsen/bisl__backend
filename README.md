@@ -27,12 +27,12 @@ To be added
 ## Tech/framework used
 
 <b>Built with</b>
-  - [Django](https://www.djangoproject.com/) for recipe management
-  - [Django REST Framework](https://www.django-rest-framework.org/) for the API
-  - [CircleCI](https://circleci.com/) for continuous integration and deployment
-  - [Heroku](https://heroku.com/) for hosting
+ -  [Django](https://www.djangoproject.com/) for recipe management
+ -  [Django REST Framework](https://www.django-rest-framework.org/) for the API
+ -  [CircleCI](https://circleci.com/) for continuous integration and deployment
+ -  [Heroku](https://heroku.com/) for hosting
 
-## Continuous Integregation ad Deployment
+## Continuous Integration ad Deployment
 Info about how this is set up
 
 ## General Design
@@ -44,7 +44,7 @@ To run Bisl locally, pull the project and use the following `docker-compose` com
 $ docker-compose up bisl
 ```
 
-That will build the project from the Dockerfile, run migrations, and start the local webserver. You can then access the project on host `http://0.0.0.0` and port `8009`:
+That will build the project from the Dockerfile, run migrations, and start the local web server. You can then access the project on host `http://0.0.0.0` and port `8009`:
 ```bash
 http://0.0.0.0:8009/
 ```
