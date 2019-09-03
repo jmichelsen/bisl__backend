@@ -20,6 +20,20 @@ jobs:
     steps:
     - checkout
     - run:
+        name: Install Docker client
+        command: |
+          set -x
+          VER="18.06.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
+    - setup_remote_docker
+    - run:
+        name: Build Docker Image
+        command: |
+          which docker
+          docker build -t $IMAGE_NAME:latest .
+    - run:
         name: Waiting for Postgres to be ready
         command: |
           for i in `seq 1 10`;
