@@ -5,6 +5,7 @@ from config.settings.base import *
 
 logging.disable(logging.CRITICAL)
 
+SECRET_KEY = 'not so secret, only used for tests'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 

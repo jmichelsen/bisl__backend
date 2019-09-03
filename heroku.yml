@@ -7,7 +7,7 @@ setup:
 build:
   config:
     DJANGO_SETTINGS_MODULE: 'config.settings.prod'
-    SECRET_KEY: '&)rukj0c(mss(x'
+    SECRET_KEY: 'not so secret, only used for builds!'
   docker:
     web: Dockerfile.web
 release:

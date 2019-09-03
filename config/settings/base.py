@@ -17,7 +17,6 @@ from common.utils import get_env_variable, set_env_from_secrets
 # Build paths inside the project like this: BASE_DIR.child('dirname')
 BASE_DIR = Path(__file__).ancestor(3)
 
-SECRET_KEY = 'aiz&fx%x9)bi_g$hl*c!*asiall(w@-34tm%&=urx=_%k447l_'
 DEBUG = True
 ALLOWED_HOSTS = []
 
