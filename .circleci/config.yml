@@ -37,6 +37,8 @@ jobs:
           set -ou pipefail
           mkdir test_results
           pytest --cov --junitxml=test_reports/junit.xml
+          coverage xml
+          python-codacy-coverage -r coverage.xml
     - store_test_results:
         path: test_reports
     - store_artifacts:
