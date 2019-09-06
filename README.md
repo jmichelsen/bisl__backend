@@ -32,8 +32,8 @@ To be added
  -  [CircleCI](https://circleci.com/) for continuous integration and deployment
  -  [Heroku](https://heroku.com/) for hosting
 
-## Continuous Integration ad Deployment
-Info about how this is set up
+## Continuous Integration and Deployment
+![bisl logo](docs/diagram.svg)
 
 ## General Design (work in progress)
 The general design of this app consists of several components; 
