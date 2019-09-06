@@ -10,7 +10,6 @@ jobs:
         POSTGRES_USER: bisl
         POSTGRES_DB: bisl
     environment:
-    - IMAGE_NAME: jmichelsen/bisl_backend
     - DJANGO_SETTINGS_MODULE: config.settings.dev
     - PSQL_HOST: localhost
     - PSQL_NAME: bisl
@@ -68,7 +67,6 @@ jobs:
     - run:
         name: Build Docker Image
         command: |
-          which docker
           docker build -t $IMAGE_NAME:latest .
     - run:
         name: Publish Docker Image to Docker Hub

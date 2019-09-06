@@ -20,7 +20,6 @@ services:
     command: "python manage.py runserver 0.0.0.0:8009"
     ports:
     - "8009:8009"
-    restart: always
     volumes:
       - .:/code
     working_dir: /code
