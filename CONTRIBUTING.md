@@ -6,11 +6,13 @@ The following are a set of guidelines for contributing to Bisl.
 
 ## Getting Started
 
-Bisl is build on Django and uses docker and docker-compose to run the project in _every_ environment it is run, as well as for tests.
+Bisl is built on Django and uses docker and docker-compose to run the project in _every_ environment it is run, as well as for tests.
 
 If you are familiar with these tools you shouldn't have any problem running, testing, and contributing to the project.
 
-Please read all of the [docs in the project](https://github.com/jmichelsen/bisl__backend/tree/master/docs) before contributing. 
+Please read all of the [docs in the project](https://github.com/jmichelsen/bisl__backend/tree/master/docs) before contributing.
+
+After you've read over the docs, you can look through the issues tagged with ["good first issue"](https://github.com/jmichelsen/bisl__backend/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) in the project.
 
 ## Issues
 If you encounter a bug or would like to suggest enhancements, please open a [new issue](https://github.com/jmichelsen/bisl__backend/issues)
