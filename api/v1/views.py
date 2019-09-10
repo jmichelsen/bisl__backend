@@ -1,5 +1,5 @@
 """
-Views for the Character API
+Views for the Recipe API
 """
 from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer
