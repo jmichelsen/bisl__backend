@@ -16,8 +16,11 @@ Including another URLconf
 from django.urls import path, include
 
 from common.urls import common_patterns
+from api.urls import api_patterns
 
 urlpatterns = [
     path('common/', include((common_patterns, 'common'))),
+    path('api/', include((api_patterns, 'api'))),
+
 ]
 
