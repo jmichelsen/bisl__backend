@@ -1,9 +1,9 @@
 """
 Views for the Recipe API
 """
+from rest_framework import viewsets
 from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer
-from rest_framework import viewsets
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
