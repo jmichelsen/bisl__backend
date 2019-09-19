@@ -15,10 +15,16 @@ class TestRecipeApi(APITestCase):
         self.recipe = create(Recipe, {'title': 'testing'})
 
     def test_recipe_list(self):
+        """
+        Verify GET returns Recipe list
+        """
         response = self.client.get(reverse_lazy('api:v1:recipe-list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_account(self):
+        """
+        Verify POST creates a Recipe
+        """
         url = reverse_lazy('api:v1:recipe-list')
         data = {
             "user": 1,
@@ -35,16 +41,25 @@ class TestRecipeApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_recipe_detail(self):
+        """
+        Verify GET returns Recipe detail
+        """
         response = self.client.get(reverse_lazy('api:v1:recipe-detail', kwargs={'pk': self.recipe.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'testing')
 
     def test_recipe_update(self):
+        """
+        Verify PATCH updates our Recipe
+        """
         response = self.client.patch(reverse_lazy('api:v1:recipe-detail',
                                                   kwargs={'pk': self.recipe.pk}), {'title': 'new_test_title'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_recipe_delete(self):
+        """
+        Verify DELETE, deletes a Recipe
+        """
         response = self.client.delete(reverse_lazy('api:v1:recipe-detail', kwargs={'pk': self.recipe.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
