@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'common',
     'comments',
     'recipes',
+    'api',
 
     # third party
     'rest_framework',
