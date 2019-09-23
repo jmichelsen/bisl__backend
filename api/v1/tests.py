@@ -25,8 +25,8 @@ class TestRecipeApi(APITestCase):
         recipes = Recipe.objects.all()
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Recipe.objects.count(), 1)
-        self.assertEqual(Recipe.objects.get().title, 'testing')
+        self.assertEqual(recipes.count(), 1)
+        self.assertEqual(recipes.get(pk=self.recipe.pk).title, 'testing')
         self.assertEqual(response.data, serializer.data)
 
     def test_create_recipe(self):
