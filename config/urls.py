@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.contrib import admin
-from django.views.generic import TemplateView
-
 from common.urls import common_patterns
 from api.urls import api_patterns
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='social_login/index.html')),
     path('admin/', admin.site.urls),
     path('common/', include((common_patterns, 'common'))),
     path('api/', include((api_patterns, 'api'))),
