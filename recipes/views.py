@@ -25,6 +25,7 @@ class RecipeListView(ListView):
     """
     model = Recipe
     context_object_name = 'recipe_list'
+    ordering = ['-created_at']
 
 
 class RecipeDetailView(DetailView):

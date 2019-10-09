@@ -6,4 +6,6 @@
         Are you sure you want to delete "{{ recipe }}"?
         <input type="submit" value="Submit"/>
     </form>
+    <a href="{% url "detail-single-recipe" recipe.id %}">Cancel</a>
+
 {% endblock content %}

@@ -8,4 +8,7 @@
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
         <p>Difficulty: {{ recipe.difficulty }}</p>
+    <div>
+        <a href="{% url "list-recipe" %}">Back</a>
+    </div>
 {% endblock content %}
