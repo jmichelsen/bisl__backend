@@ -14,7 +14,8 @@ class RecipeCreateView(CreateView):
     fields = ['user', 'title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty']
 
-    success_url = reverse_lazy('list-recipe')
+    def get_success_url(self):
+        return reverse_lazy('detail-single-recipe', kwargs={'pk': self.object.id})
 
 
 class RecipeListView(ListView):
@@ -42,7 +43,9 @@ class RecipeUpdateView(UpdateView):
     model = Recipe
     fields = ['title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty']
-    success_url = reverse_lazy('list-recipe')
+
+    def get_success_url(self):
+        return reverse_lazy('detail-single-recipe', kwargs={'pk': self.object.id})
 
 
 class RecipeDeleteView(DeleteView):
