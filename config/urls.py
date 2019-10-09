@@ -23,6 +23,7 @@ urlpatterns = [
     path('common/', include((common_patterns, 'common'))),
     path('api/', include((api_patterns, 'api'))),
     path('accounts/', include('allauth.urls')),
+    path('recipe/', include('recipes.urls')),
 
 ]
 

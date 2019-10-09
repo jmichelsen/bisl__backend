@@ -1,0 +1,19 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+    <h1>Recipes</h1>
+    {% for recipe in recipe_list %}
+        <div>
+            {{ recipe.title }}<br>
+            {{ recipe.description }}<br>
+            <a href="{% url "detail-single-recipe" recipe.id %}">view</a>
+            <a href="{% url "update-recipe" recipe.id %}">edit</a>
+            <a href="{% url "delete-recipe" recipe.id %}">delete</a>
+        </div><br>
+    {% endfor %}
+        <div>
+        <a href="{% url "create-recipe" %}">Add Recipe</a>
+        </div>
+
+{% endblock content %}
+

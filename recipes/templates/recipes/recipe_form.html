@@ -1,0 +1,12 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+    <form method="post"> {% csrf_token %}
+        <table>
+            <tbody>
+                {{ form.as_table }}
+            </tbody>
+        </table>
+        <input type="submit" value="Submit Recipe">
+    </form>
+{% endblock content %}

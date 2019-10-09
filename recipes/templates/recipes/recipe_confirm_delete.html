@@ -1,0 +1,9 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+    <h1>Recipe Delete</h1>
+    <form method="post">{% csrf_token %}
+        Are you sure you want to delete "{{ recipe }}"?
+        <input type="submit" value="Submit"/>
+    </form>
+{% endblock content %}
