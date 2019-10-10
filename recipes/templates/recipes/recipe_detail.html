@@ -4,6 +4,11 @@
     <h1>Recipe Details</h1>
         <p>{{ recipe.title }}</p>
         <p>{{ recipe.description }}</p>
+    <div>
+        {% for ingredient in ingredients %}
+            {{ ingredient }}<br>
+        {% endfor %}
+    </div><br>
         <p>Prep-time: {{ recipe.preparation_time }}</p>
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
