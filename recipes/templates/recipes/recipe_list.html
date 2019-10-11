@@ -4,7 +4,7 @@
     <h1>Recipes</h1>
     {% for recipe in recipe_list %}
         <div>
-            {{ recipe.title }}<br>
+            <h3>{{ recipe.title }}</h3><br>
             {{ recipe.description }}<br>
             <a href="{% url "detail-single-recipe" recipe.id %}">view</a>
             <a href="{% url "update-recipe" recipe.id %}">edit</a>
@@ -14,6 +14,5 @@
         <div>
         <a href="{% url "create-recipe" %}">Add Recipe</a>
         </div>
-
 {% endblock content %}
 
