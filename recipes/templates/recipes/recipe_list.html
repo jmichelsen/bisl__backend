@@ -6,9 +6,9 @@
         <div>
             <h3>{{ recipe.title }}</h3><br>
             {{ recipe.description }}<br>
-            <a href="{% url "detail-single-recipe" recipe.id %}">view</a>
-            <a href="{% url "update-recipe" recipe.id %}">edit</a>
-            <a href="{% url "delete-recipe" recipe.id %}">delete</a>
+            <a href="{% url "detail-single-recipe" recipe.pk %}">view</a>
+            <a href="{% url "update-recipe" recipe.pk %}">edit</a>
+            <a href="{% url "delete-recipe" recipe.pk %}">delete</a>
         </div><br>
     {% endfor %}
         <div>
