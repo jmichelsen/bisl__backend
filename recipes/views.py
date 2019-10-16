@@ -1,9 +1,10 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView)
 
 from recipes.models import Recipe
-
+from recipes.filters import RecipeFilter
 
 class RecipeCreateView(CreateView):
     """
@@ -21,7 +22,7 @@ class RecipeCreateView(CreateView):
 class RecipeListView(ListView):
     """
 
-    View that lists all recipes
+    View that lists all recipes OR filters by Ingredient
     """
     model = Recipe
     context_object_name = 'recipe_list'
