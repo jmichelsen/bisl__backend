@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView)
 
 from recipes.models import Recipe
-from recipes.filters import RecipeFilter
+
 
 class RecipeCreateView(CreateView):
     """
