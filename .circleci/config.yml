@@ -44,12 +44,12 @@ jobs:
           DJANGO_SETTINGS_MODULE: config.settings.test
         command: |
           set -ou pipefail
-          cc-test-reporter before-build
+          ./cc-test-reporter before-build
           mkdir test_results
           pytest --cov --junitxml=test_reports/junit.xml
           coverage xml
           python-codacy-coverage -r coverage.xml
-          cc-test-reporter after-build -t coverage.py
+          ./cc-test-reporter after-build -t coverage.py
     - store_test_results:
         path: test_reports
     - store_artifacts:
