@@ -24,6 +24,11 @@ jobs:
           set -x
           pip install -r requirements/dev.txt
     - run:
+        name: Setup Code Climate test-reporter
+        command: |
+           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+           chmod +x ./cc-test-reporter
+    - run:
         name: Waiting for Postgres to be ready
         command: |
           for i in `seq 1 10`;
@@ -39,10 +44,12 @@ jobs:
           DJANGO_SETTINGS_MODULE: config.settings.test
         command: |
           set -ou pipefail
+          cc-test-reporter before-build
           mkdir test_results
           pytest --cov --junitxml=test_reports/junit.xml
           coverage xml
           python-codacy-coverage -r coverage.xml
+          cc-test-reporter after-build -t coverage.py
     - store_test_results:
         path: test_reports
     - store_artifacts:
