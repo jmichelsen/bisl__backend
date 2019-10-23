@@ -29,6 +29,9 @@ class Recipe(BaseModel):
     difficulty = models.SmallIntegerField(choices=DIFFICULTY_CHOICES)
     votes = models.ManyToManyField(AUTH_USER_MODEL, related_name='voted_recipes', through='recipes.Vote')
 
+    class Meta:
+        ordering = ('-created_at', )
+
     def __str__(self):
         """
         Return the string representation of the model
