@@ -1,0 +1,20 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="display-4">Recipe Details</h1>
+        <p class="lead">{{ recipe.title }}</p>
+        <p>{{ recipe.description }}</p>
+        <div>
+            {% for ingredient in ingredients %}
+                {{ ingredient }}<br>
+            {% endfor %}
+        </div>
+        <br>
+        <p>Prep-time: {{ recipe.preparation_time }}</p>
+        <p>Cook-time: {{ recipe.cook_time }}</p>
+        <p>Servings: {{ recipe.servings }}</p>
+        <p>Difficulty: {{ recipe.difficulty }}</p>
+        <a class="btn btn-outline-primary" href="{% url "recipes:list" %}">Back</a>
+    </div>
+{% endblock content %}
