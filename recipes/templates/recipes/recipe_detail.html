@@ -15,6 +15,6 @@
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
         <p>Difficulty: {{ recipe.difficulty }}</p>
-        <a class="btn btn-outline-primary" href="{% url "list-recipe" %}">Back</a>
+        <a class="btn btn-outline-primary" href="{% url "recipes:list" %}">Back</a>
     </div>
 {% endblock content %}

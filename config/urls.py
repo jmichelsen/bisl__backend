@@ -18,12 +18,14 @@ from django.contrib import admin
 from common.urls import common_patterns
 from api.urls import api_patterns
 
+from recipes.urls import recipe_patterns
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('common/', include((common_patterns, 'common'))),
     path('api/', include((api_patterns, 'api'))),
     path('accounts/', include('allauth.urls')),
-    path('recipe/', include('recipes.urls')),
+    path('recipe/', include((recipe_patterns, 'recipes'))),
 
 ]
 

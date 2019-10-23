@@ -3,21 +3,21 @@
 {% block content %}
     <div class="container-fluid">
         <h1>Recipes</h1>
-        <a href="{% url "filter-recipe" %}">Search by Ingredient?</a>
+        <a href="{% url "recipes:filter" %}">Search by Ingredient?</a>
         <div>
             <ul>
             {% for recipe in recipe_list %}
                 <li class="list-group-item">
                     <h4>{{ recipe.title }}</h4><br>
-                    <a href="{% url "detail-single-recipe" recipe.pk %}">view</a>
-                    <a href="{% url "update-recipe" recipe.pk %}">edit</a>
-                    <a href="{% url "delete-recipe" recipe.pk %}">delete</a>
+                    <a href="{% url "recipes:detail" recipe.pk %}">view</a>
+                    <a href="{% url "recipes:update" recipe.pk %}">edit</a>
+                    <a href="{% url "recipes:delete" recipe.pk %}">delete</a>
                 </li>
                 <br>
             {% endfor %}
             </ul>
         </div>
-        <a class="btn btn-outline-primary" href="{% url "create-recipe" %}">Add Recipe</a>
+        <a class="btn btn-outline-primary" href="{% url "recipes:create" %}">Add Recipe</a>
     </div>
 
 {% endblock content %}
