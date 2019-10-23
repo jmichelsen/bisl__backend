@@ -1,15 +1,20 @@
 {% extends 'common/__base.html' %}
 
 {% block content %}
-  <form method="get">
-    {{ filter.form.as_p }}
-    <button type="submit">Search by Ingredient</button>
-  </form><br>
-  <ul>
-  {% for recipe in filter.qs %}
-    <li><a href="{% url "detail-single-recipe" recipe.pk %}">{{ recipe.title }}</a> - {{ recipe.description }}</li>
-  {% endfor %}
-  </ul>
-    <a href="{% url "list-recipe" %}">All Recipes</a>
-
+    <div class="container-fluid">
+      <form method="get">
+        {% csrf_token %}
+        {{ filter.form.as_p }}
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form><br>
+        <div class="list-group">
+          <ul>
+          {% for recipe in filter.qs %}
+            <li class="list-group-item"><a href="{% url "detail-single-recipe" recipe.pk %}">{{ recipe.title }}</a> - {{ recipe.description }}</li>
+          {% endfor %}
+          </ul>
+        </div>
+        <br>
+        <a class="btn btn-outline-primary" href="{% url "list-recipe" %}">All Recipes</a>
+    </div>
 {% endblock %}

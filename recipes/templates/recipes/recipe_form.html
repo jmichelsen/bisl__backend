@@ -1,12 +1,16 @@
 {% extends 'common/__base.html' %}
 
 {% block content %}
-    <form method="post"> {% csrf_token %}
-        <table>
-            <tbody>
-                {{ form.as_table }}
-            </tbody>
-        </table>
-        <input type="submit" value="Submit Recipe">
-    </form>
+    <div class="container-fluid">
+        <h1>Add Recipe</h1>
+        <div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                <div class="col-sm-6">
+                    {{ form.as_p }}
+                </div>
+                <input class="btn-lg badge-success " type="submit" value="Submit Recipe">
+            </form>
+        </div>
+    </div>
 {% endblock content %}
