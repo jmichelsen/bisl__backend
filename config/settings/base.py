@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'api',
 
     # third party
+    'django_filters',
     'rest_framework',
 
     # allauth
