@@ -41,7 +41,7 @@ RUN mkdir /code/
 WORKDIR /code/
 COPY . /code/
 
-ENV IN_DOCKER=True PATH="/usr/sbin:/usr/bin:/sbin:/bin:/bisl/bin"
+ENV IN_DOCKER=True PATH="/usr/sbin:/usr/bin:/sbin:/bin:/bisl/bin" LD_LIBRARY_PATH="/usr/lib"
 
 RUN python manage.py collectstatic --noinput
 CMD gunicorn config.wsgi
