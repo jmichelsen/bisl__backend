@@ -3,6 +3,7 @@
 {% block content %}
     <div class="container-fluid">
         <h1 class="display-4">Recipe Details</h1>
+        <p class="lead">Submitted By: {{ recipe.user }}</p>
         <p class="lead">{{ recipe.title }}</p>
         <p>{{ recipe.description }}</p>
         <div>

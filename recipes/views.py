@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView)
@@ -5,13 +6,17 @@ from django.views.generic import (CreateView, DetailView, DeleteView,
 from recipes.models import Recipe
 
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a recipe
     """
     model = Recipe
-    fields = ('user', 'title', 'description', 'servings', 'ingredients', 'preparation_time',
+    fields = ('title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty', )
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('recipes:detail', kwargs={'pk': self.object.pk})
@@ -36,7 +41,7 @@ class RecipeDetailView(DetailView):
         return context
 
 
-class RecipeUpdateView(UpdateView):
+class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
     """
     View to update a recipe
     """
@@ -44,13 +49,29 @@ class RecipeUpdateView(UpdateView):
     fields = ('title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty', )
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        recipe = self.get_object()
+        if self.request.user == recipe.user:
+            return True
+        return False
+
     def get_success_url(self):
         return reverse_lazy('recipes:detail', kwargs={'pk': self.object.id})
 
 
-class RecipeDeleteView(DeleteView):
+class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     View to delete a recipe
     """
     model = Recipe
     success_url = reverse_lazy('recipes:list')
+
+    def test_func(self):
+        recipe = self.get_object()
+        if self.request.user == recipe.user:
+            return True
+        return False
