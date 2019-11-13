@@ -44,7 +44,7 @@ class Recipe(BaseModel):
         Return upvote count
         """
         votes = self.votes.through.objects.filter(recipe=self)
-        return votes.filter(up=True).count() - votes.filter(up=False).count()
+        return votes.filter(up=True).count()
 
     @property
     def vote_objects(self):
@@ -60,7 +60,7 @@ class Recipe(BaseModel):
         :type: bool
         :return: None
         """
-        Vote.objects.update_or_create(user=user, recipe=self, up=up)
+        Vote.objects.update_or_create(user=user, recipe=self, defaults={'up': up})
 
     @cached_property
     def total_time_required(self):
