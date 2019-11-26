@@ -1,8 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView)
 
+from recipes.mixins import AdminOrOwnerPermissionMixin
 from recipes.models import Recipe
 
 
@@ -41,10 +42,11 @@ class RecipeDetailView(DetailView):
         return context
 
 
-class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
+class RecipeUpdateView(AdminOrOwnerPermissionMixin, UpdateView):
     """
-    View to update a recipe
+    View to delete a recipe
     """
+    permission_required = 'recipes.change_recipe'
     model = Recipe
     fields = ('title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty', )
@@ -53,25 +55,25 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin,  UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def test_func(self):
-        recipe = self.get_object()
-        if self.request.user == recipe.user:
-            return True
-        return False
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse_lazy('recipes:detail', kwargs={'pk': self.object.id})
+        return reverse_lazy('recipes:detail', kwargs={'pk': self.object.pk})
 
 
-class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class RecipeDeleteView(AdminOrOwnerPermissionMixin, DeleteView):
     """
     View to delete a recipe
     """
+    permission_required = 'recipes.delete_recipe'
     model = Recipe
     success_url = reverse_lazy('recipes:list')
 
-    def test_func(self):
-        recipe = self.get_object()
-        if self.request.user == recipe.user:
-            return True
-        return False
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().get(request, *args, **kwargs)
+
+
+
