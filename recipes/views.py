@@ -55,10 +55,6 @@ class RecipeUpdateView(AdminOrOwnerPermissionMixin, UpdateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().get(request, *args, **kwargs)
-
     def get_success_url(self):
         return reverse_lazy('recipes:detail', kwargs={'pk': self.object.pk})
 
@@ -70,7 +66,3 @@ class RecipeDeleteView(AdminOrOwnerPermissionMixin, DeleteView):
     permission_required = 'recipes.delete_recipe'
     model = Recipe
     success_url = reverse_lazy('recipes:list')
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().get(request, *args, **kwargs)
