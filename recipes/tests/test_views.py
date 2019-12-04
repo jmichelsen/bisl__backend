@@ -34,9 +34,13 @@ class TestRecipeViews(TestCase):
         self.assertContains(response, 'test_title')
 
     def test_update_recipe(self):
-        response = self.client.post(reverse('recipes:update', kwargs={'pk': self.form.pk}),
-                                    {'title': 'testing'})
-        self.assertEqual(response.status_code, 302)
+        """
+        Test UpdateView updates users recipe
+        """
+        self.client.force_login(user=self.user)
+        response = self.client.put(reverse('recipes:update', kwargs={'pk': self.form.pk}),
+                                   {'title': 'testing'})
+        self.assertEqual(response.status_code, 200)
 
         # reloads a models value from the database
         self.form.refresh_from_db()
@@ -44,7 +48,7 @@ class TestRecipeViews(TestCase):
 
     def test_unauthorized_update_view(self):
         """
-        UpdateView is forbidden to unauthorized users
+        Test UpdateView is forbidden to unauthorized users
         """
         self.client.force_login(user=get_user_model().objects.create(username='unauthorized_user'))
         response = self.client.get(reverse('recipes:update', kwargs={'pk': self.form.pk}))
@@ -52,7 +56,7 @@ class TestRecipeViews(TestCase):
 
     def test_delete_confirm_page(self):
         """
-        DeleteView takes user to confirmation page
+        Test DeleteView takes user to confirmation page
         """
         self.client.force_login(user=self.user)
         response = self.client.get(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
@@ -60,7 +64,7 @@ class TestRecipeViews(TestCase):
 
     def test_delete_recipe(self):
         """
-        DeleteView deletes a recipe
+        Test DeleteView deletes a recipe
         """
         self.client.force_login(user=self.user)
         response = self.client.post(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
@@ -69,7 +73,7 @@ class TestRecipeViews(TestCase):
 
     def test_unauthorized_delete_view(self):
         """
-        DeleteView is forbidden to unauthorized users
+        Test DeleteView is forbidden to unauthorized users
         """
         self.client.force_login(user=get_user_model().objects.create(username='unauthorized_user'))
         response = self.client.get(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
