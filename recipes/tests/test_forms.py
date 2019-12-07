@@ -8,6 +8,9 @@ from recipes.models import Recipe
 
 class TestRecipeFrom(TestCase):
     def test_valid_form(self):
+        """
+        Validate a valid form
+        """
         r = Recipe(
             title='test recipe',
             description='test recipe description',
@@ -30,14 +33,18 @@ class TestRecipeFrom(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_invalid_form(self):
+        """
+        Validate an invalid form
+        :return:
+        """
         r = Recipe(
             title='',
             description='',
-            preparation_time=timedelta(microseconds=1),
-            cook_time=timedelta(microseconds=1),
-            servings=2,
-            max_servings=3,
-            difficulty=1,
+            preparation_time=None,
+            cook_time=None,
+            servings=None,
+            max_servings=None,
+            difficulty=None,
         )
         form_data = {
             'title': r.title,
@@ -49,5 +56,5 @@ class TestRecipeFrom(TestCase):
             'difficulty': r.difficulty,
         }
         form = RecipeForm(data=form_data)
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
 
