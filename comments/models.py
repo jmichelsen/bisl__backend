@@ -1,7 +1,7 @@
-# Django
 from django.conf import settings
 from django.db import models
 
+# local
 from common.models import BaseModel
 
 
