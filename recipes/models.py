@@ -44,7 +44,7 @@ class Recipe(BaseModel):
         Return upvote count
         """
         votes = self.votes.through.objects.filter(recipe=self)
-        return votes.filter(up=True).count()
+        return votes.filter(up=True).count() - votes.filter(up=False).count()
 
     @property
     def vote_objects(self):

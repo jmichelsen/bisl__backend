@@ -7,6 +7,7 @@ from recipes.models import Recipe
 
 class TestRecipe(TestCase):
     def setUp(self):
+        super().setUp()
         self.user1 = get_user_model().objects.create(username='user1')
         self.user2 = get_user_model().objects.create(username='user2')
         self.user3 = get_user_model().objects.create(username='user3')
@@ -31,8 +32,8 @@ class TestRecipe(TestCase):
         """
         Validate total number of upvotes for a recipe
         """
-        expected = 2
-        actual = self.recipe1.vote_objects.filter(up=True).count()
+        expected = 1
+        actual = self.recipe1.vote_objects.filter(up=True).count() - self.recipe1.vote_objects.filter(up=False).count()
         self.assertEqual(expected, actual)
 
     def test_vote_objects(self):
@@ -43,7 +44,7 @@ class TestRecipe(TestCase):
         actual = len(self.recipe1.vote_objects)
         self.assertEqual(expected, actual)
 
-    def test_cast_vote_none(self):
+    def test_cast_vote__none(self):
         """
         Change a user vote to None
         """
@@ -52,7 +53,7 @@ class TestRecipe(TestCase):
         actual = self.recipe1.vote_objects.filter(up=True).count()
         self.assertEqual(expected, actual)
 
-    def test_cast_vote_false(self):
+    def test_cast_vote__false(self):
         """
         Change a user vote to False
         """
@@ -61,7 +62,7 @@ class TestRecipe(TestCase):
         actual = self.recipe1.vote_objects.filter(up=False).count()
         self.assertEqual(expected, actual)
 
-    def test_cast_vote_true(self):
+    def test_cast_vote__true(self):
         """
         Change a user vote to True
         """
