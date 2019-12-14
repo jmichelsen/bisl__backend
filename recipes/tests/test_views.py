@@ -21,7 +21,7 @@ class TestRecipeViews(TestCase):
         add_delete_permission = Permission.objects.get(name='Can delete recipe')
         add_edit_permission = Permission.objects.get(name='Can change recipe')
 
-        self.user2 = get_user_model().objects.create(username='test_user', password='test_pw')
+        self.user2 = get_user_model().objects.create(username='test_user')
         self.user2.groups.add(self.group)
         self.group.permissions.add(add_delete_permission, add_edit_permission)
 
