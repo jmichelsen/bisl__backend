@@ -94,7 +94,7 @@ class TestRecipeViews(TestCase):
 
     def test_admin_can_delete_recipe(self):
         """
-        Test recipe admin can delete recipe
+        Test recipe admin can delete users recipe
         """
         self.client.force_login(user=self.user2)
 
