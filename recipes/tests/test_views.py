@@ -11,8 +11,8 @@ class TestRecipeViews(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.user1 = get_user_model().objects.create(username='test_user1')
-        self.form = create(Recipe, {'user': self.user1, 'title': 'test_title'})
+        self.user = get_user_model().objects.create(username='test_user')
+        self.form = create(Recipe, {'user': self.user, 'title': 'test_title'})
         self.client = Client()
 
         # group and permission setup
@@ -21,15 +21,15 @@ class TestRecipeViews(TestCase):
         add_delete_permission = Permission.objects.get(name='Can delete recipe')
         add_edit_permission = Permission.objects.get(name='Can change recipe')
 
-        self.user2 = get_user_model().objects.create(username='test_user')
-        self.user2.groups.add(self.group)
+        self.admin_user = get_user_model().objects.create(username='admin_user')
+        self.admin_user.groups.add(self.group)
         self.group.permissions.add(add_delete_permission, add_edit_permission)
 
     def test_create_recipe(self):
         """
         Test form instance uses self.user for posting recipes
         """
-        self.client.force_login(user=self.user1)
+        self.client.force_login(user=self.user)
         response = self.client.post(reverse('recipes:create'), {'title': self.form.title})
         self.assertEqual(Recipe.objects.first().user, self.form.user)
         self.assertContains(response, 'test_title')
@@ -50,7 +50,7 @@ class TestRecipeViews(TestCase):
         """
         Test UpdateView updates users recipe
         """
-        self.client.force_login(user=self.user1)
+        self.client.force_login(user=self.user)
         response = self.client.put(reverse('recipes:update', kwargs={'pk': self.form.pk}),
                                    {'title': 'testing'})
         self.assertEqual(response.status_code, 200)
@@ -71,7 +71,7 @@ class TestRecipeViews(TestCase):
         """
         Test DeleteView takes user to confirmation page
         """
-        self.client.force_login(user=self.user1)
+        self.client.force_login(user=self.user)
         response = self.client.get(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
         self.assertContains(response, 'delete')
 
@@ -79,7 +79,7 @@ class TestRecipeViews(TestCase):
         """
         Test DeleteView deletes a recipe
         """
-        self.client.force_login(user=self.user1)
+        self.client.force_login(user=self.user)
         response = self.client.post(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
         self.assertRedirects(response, reverse('recipes:list'))
         self.assertFalse(Recipe.objects.filter(pk=self.form.pk).exists())
@@ -96,7 +96,7 @@ class TestRecipeViews(TestCase):
         """
         Test recipe admin can delete users recipe
         """
-        self.client.force_login(user=self.user2)
+        self.client.force_login(user=self.admin_user)
 
         response = self.client.post(reverse('recipes:delete', kwargs={'pk': self.form.pk}))
         self.assertRedirects(response, reverse('recipes:list'))
@@ -105,7 +105,7 @@ class TestRecipeViews(TestCase):
         """
         Test recipe admin can update users recipe
         """
-        self.client.force_login(user=self.user2)
+        self.client.force_login(user=self.admin_user)
         response = self.client.put(reverse('recipes:update', kwargs={'pk': self.form.pk}),
                                    {'title': 'testing123'})
         self.assertEqual(response.status_code, 200)
