@@ -60,7 +60,7 @@ class Recipe(BaseModel):
         :type: bool
         :return: None
         """
-        Vote.objects.update_or_create(user=user, recipe=self, up=up)
+        Vote.objects.update_or_create(user=user, recipe=self, defaults={'up': up})
 
     @cached_property
     def total_time_required(self):
