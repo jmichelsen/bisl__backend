@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # local apps
     'common',
     'comments',
+    'messaging',
     'recipes',
     'api',
 
