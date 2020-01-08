@@ -14,13 +14,6 @@ class MessageForm(forms.Form):
         attrs={'rows': 15, 'cols': 50}
     ))
 
-    def __init__(self, *args, **kwargs):
-        recipient_filter = kwargs.pop('recipient_filter', None)
-        super(MessageForm, self).__init__(*args, **kwargs)
-
-        if recipient_filter is not None:
-            self.fields['recipient'].__recipient_filter = recipient_filter
-
     def save(self, sender, parent_message=None):
         recipients = self.cleaned_data['recipient']
         subject = self.cleaned_data['subject']
@@ -40,5 +33,6 @@ class MessageForm(forms.Form):
                 parent_message.replied_at = timezone.now()
                 parent_message.save()
             message.save()
+            message_list.append(message)
         return message_list
 
