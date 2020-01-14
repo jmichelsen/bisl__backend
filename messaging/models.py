@@ -75,6 +75,8 @@ class Message(models.Model):
         return reverse('messaging:messages_detail', args=[self.id])
 
     def save(self, *args, **kwargs):
+        """if Sender & Recipient delete a message, it is permanently deleted from the DB"""
+        
         if self.sender_deleted_at is not None and self.recipient_deleted_at is not None:
             self.delete()
         else:
