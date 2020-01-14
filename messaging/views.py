@@ -157,6 +157,7 @@ def undelete(request, message_id):
         message.recipient_deleted_at = None
         undeleted = True
     if undeleted:
+        message.read_at = None
         message.save()
         messages.info(request, 'Message successfully recovered.', extra_tags='undelete')
         return redirect(success_url)
