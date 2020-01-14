@@ -1,0 +1,13 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+<ul>
+    <h2>Hello {{ request.user.username }}, you have {{ inbox_count }} unread messages!</h2>
+    <li><a href="{% url 'messaging:messages_compose' %} ">Compose New Message</a></li>
+    <li><a href="{% url 'messaging:messages_inbox' %} ">Inbox</a></li>
+    <li><a href="{% url 'messaging:messages_outbox' %} ">Sent Messages</a></li>
+    <li><a href="{% url 'messaging:messages_trash' %} ">Trash</a></li>
+</ul>
+    <a class="btn btn-outline-primary" href="{% url "recipes:list" %}">Back</a>
+
+{% endblock content %}

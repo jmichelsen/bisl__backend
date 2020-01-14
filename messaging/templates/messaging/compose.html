@@ -1,0 +1,15 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+
+<h1>Compose Message</h1>
+<form action="" method="post">
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+<input class="btn-lg badge-success" type="submit" value="Send"/>
+</form>
+
+{% endblock %}
+

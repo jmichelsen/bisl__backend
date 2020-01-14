@@ -1,17 +1,21 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from messaging.models import Message
 
 
+User = get_user_model()
+
+
 class MessageForm(forms.Form):
     """
-    Compose form for user to user messaging
+    Compose & Reply form for user to user messaging
     """
-    recipient = forms.TypedMultipleChoiceField(label='Recipient')
+    recipient = forms.ModelMultipleChoiceField(label='Recipient', queryset=User.objects.all())
     subject = forms.CharField(label='Subject', max_length=130)
     body = forms.CharField(label='Body', widget=forms.Textarea(
-        attrs={'rows': 15, 'cols': 50}
+        attrs={'rows': 10, 'cols': 50}
     ))
 
     def save(self, sender, parent_message=None):

@@ -1,0 +1,37 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+<h1>Sent Messages</h1>
+
+{% if messages %}
+    {% for message in messages %}
+    <ul>
+        {% ifequal message.tags 'sent info' %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    </ul>
+        {% endifequal %}
+    {% endfor %}
+{% endif %}
+
+{% if message_list %}
+<table>
+    <thead>
+        <tr><th>Recipient</th><th>Subject</th><th>Sent</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+{% for message in message_list %}
+    <tr>
+        <td>{{ message.recipient }}</td>
+        <td>
+        <a href="{{ message.get_absolute_url }}">{{ message.subject }}</a>
+        </td>
+        <td>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>
+        <td><a href="{% url 'messaging:messages_delete' message.id %}?next={% url 'messaging:messages_outbox' %}">Delete</a></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No Messages</p>
+{% endif %}
+{% endblock %}

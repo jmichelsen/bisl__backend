@@ -1,15 +1,21 @@
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils import timezone
 
 from messaging.forms import MessageForm
-from messaging.models import Message
+from messaging.models import Message, inbox_count
 
-User = get_user_model()
+
+@login_required
+def mailbox(request):
+
+    """View to show all mailboxes"""
+
+    template_name = 'messaging/mailbox.html'
+    return render(request, template_name, {'inbox_count': inbox_count(user=request.user)})
 
 
 @login_required
@@ -35,7 +41,7 @@ def outbox(request):
 @login_required
 def trash(request):
 
-    """Display a list of received messages for the user"""
+    """Display a list of deleted messages for the user"""
 
     template_name = 'messaging/trash.html'
     message_list = Message.objects.trash_for(request.user)
@@ -55,18 +61,19 @@ def compose(request):
         form = form_class(request.POST)
         if form.is_valid():
             form.save(sender=request.user)
-            messages.info(request, 'Message sent successfully')
+            messages.info(request, 'Message sent successfully', extra_tags='sent')
             if success_url is None:
-                success_url = reverse('messaging:inbox')
+                success_url = reverse_lazy('messaging:messages_outbox')
             if 'next' in request.GET:
                 success_url = request.GET['next']
-            return HttpResponseRedirect(success_url)
+            return redirect(success_url)
+
     else:
         form = form_class(initial={'subject': request.GET.get('subject', '')})
     return render(request, template_name, {'form': form})
 
 
-@login_required()
+@login_required
 def reply(request, message_id):
 
     """Form to reply to a message"""
@@ -74,9 +81,8 @@ def reply(request, message_id):
     template_name = 'messaging/compose.html'
     form_class = MessageForm
     success_url = None
-    subject_template = 'Re: '
-
     parent = get_object_or_404(Message, id=message_id)
+    subject_template = 'Re: ' + parent.subject
 
     if parent.sender != request.user and parent.recipient != request.user:
         raise Http404
@@ -86,26 +92,26 @@ def reply(request, message_id):
         form = form_class(request.POST)
         if form.is_valid():
             form.save(sender=request.user, parent_message=parent)
-            messages.info(request, 'Reply successfully sent')
+            messages.info(request, 'Reply successfully sent', extra_tags='reply')
             if success_url is None:
-                success_url = reverse('messaging:inbox')
-            return HttpResponseRedirect(success_url)
-        else:
-            form = form_class(initial={
-                'body': {parent.sender, parent.body},
-                'subject': subject_template,
-                'recipient': [parent.sender, ]
-            })
-        return render(request, template_name, {
-            'form': form
+                success_url = reverse_lazy('messaging:messages_inbox')
+            return redirect(success_url)
+    else:
+        form = form_class(initial={
+            'body': (parent.sender, parent.body),
+            'subject': subject_template,
+            'recipient': [parent.sender, ]
         })
+    return render(request, template_name, {
+        'form': form
+    })
 
 
 @login_required
 def delete(request, message_id):
 
-    """Marks a message deleted by sender OR recipient, but not removed completely
-    until both users delete it"""
+    """Marks a message deleted by sender OR recipient, but not removed completely, so the user
+    is able to retrieve it still to undelete."""
 
     success_url = None
     user = request.user
@@ -114,7 +120,7 @@ def delete(request, message_id):
     deleted = False
 
     if success_url is None:
-        success_url = reverse('messaging:inbox')
+        success_url = reverse_lazy('messaging:messages_inbox')
     if 'next' in request.GET:
         success_url = request.GET['next']
     if message.sender == user:
@@ -125,8 +131,8 @@ def delete(request, message_id):
         deleted = True
     if deleted:
         message.save()
-        messages.info(request, 'Message successfully deleted.')
-        return HttpResponseRedirect(success_url)
+        messages.info(request, 'Message successfully deleted.', extra_tags='delete')
+        return redirect(success_url)
     raise Http404
 
 
@@ -138,23 +144,24 @@ def undelete(request, message_id):
     success_url = None
     user = request.user
     message = get_object_or_404(Message, id=message_id)
-    un_deleted = False
+    undeleted = False
 
     if success_url is None:
-        success_url = reverse('messaging:inbox')
+        success_url = reverse_lazy('messaging:messages_inbox')
     if 'next' in request.GET:
         success_url = request.GET['next']
     if message.sender == user:
         message.sender_deleted_at = None
-        un_deleted = True
+        undeleted = True
     if message.recipient == user:
         message.recipient_deleted_at = None
-        un_deleted = True
-    if un_deleted:
+        undeleted = True
+    if undeleted:
         message.save()
-        messages.info(request, 'Message successfully recovered.')
-        return HttpResponseRedirect(success_url)
+        messages.info(request, 'Message successfully recovered.', extra_tags='undelete')
+        return redirect(success_url)
     raise Http404
+
 
 @login_required
 def message_view(request, message_id):
@@ -171,7 +178,7 @@ def message_view(request, message_id):
 
     if message.sender != user and message.recipient != user:
         raise Http404
-    if message.read_at is None and message.recipient is user:
+    if message.read_at is None and message.recipient == user:
         message.read_at = now
         message.save()
 
