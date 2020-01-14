@@ -74,10 +74,13 @@ class Message(models.Model):
     def get_absolute_url(self):
         return reverse('messaging:messages_detail', args=[self.id])
 
-    def save(self, **kwargs):
-        if not self.id:
-            self.sent_at = timezone.now()
-        super(Message, self).save(**kwargs)
+    def save(self, *args, **kwargs):
+        if self.sender_deleted_at is not None and self.recipient_deleted_at is not None:
+            self.delete()
+        else:
+            if not self.id:
+                self.sent_at = timezone.now()
+            super().save(*args, **kwargs)
 
 
 def inbox_count(user):
