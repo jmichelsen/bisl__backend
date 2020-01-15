@@ -15,7 +15,7 @@ class MessageForm(forms.Form):
     recipient = forms.ModelMultipleChoiceField(label='Recipient', queryset=User.objects.all())
     subject = forms.CharField(label='Subject', max_length=130)
     body = forms.CharField(label='Body', widget=forms.Textarea(
-        attrs={'rows': 10, 'cols': 50}
+        attrs={'rows': 15, 'cols': 70}
     ))
 
     def save(self, sender, parent_message=None):

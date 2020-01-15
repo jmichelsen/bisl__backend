@@ -6,8 +6,12 @@
 {% if messages %}
     {% for message in messages %}
     <ul>
-        {% if message.tags == 'reply info' or 'delete info' or 'undelete info' %}
-        <li class="{{ message.tags }}">{{ message }}</li>
+        {% if 'reply' in message.tags %}
+            <li>{{ message }}</li>
+        {% elif 'delete' in message.tags %}
+            <li>{{ message }}</li>
+        {% elif 'undelete' in message.tags %}
+            <li>{{ message }}</li>
     </ul>
         {% endif %}
     {% endfor %}

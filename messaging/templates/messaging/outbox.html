@@ -2,17 +2,15 @@
 
 {% block content %}
 <h1>Sent Messages</h1>
-
 {% if messages %}
-    {% for message in messages %}
+{% for message in messages %}
     <ul>
-        {% ifequal message.tags 'sent info' %}
+    {% if 'delete' in message.tags %}
         <li class="{{ message.tags }}">{{ message }}</li>
     </ul>
-        {% endifequal %}
-    {% endfor %}
 {% endif %}
-
+{% endfor %}
+{% endif %}
 {% if message_list %}
 <table>
     <thead>

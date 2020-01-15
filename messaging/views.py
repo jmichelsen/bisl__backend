@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from messaging.forms import MessageForm
 from messaging.models import Message, inbox_count
+from messaging.utils import format_reply
 
 
 @login_required
@@ -98,7 +99,7 @@ def reply(request, message_id):
             return redirect(success_url)
     else:
         form = form_class(initial={
-            'body': (parent.sender, parent.body),
+            'body': format_reply(parent.sender.username, parent.body),
             'subject': subject_template,
             'recipient': [parent.sender, ]
         })
@@ -170,12 +171,11 @@ def message_view(request, message_id):
     """Shows a single message. Only the user is allowed to see. """
 
     form_class = MessageForm
-    subject_template = 'Re: '
     template_name = 'messaging/view.html'
-
     user = request.user
     now = timezone.now()
     message = get_object_or_404(Message, id=message_id)
+    subject_template = 'Re: ' + message.subject
 
     if message.sender != user and message.recipient != user:
         raise Http404
@@ -186,7 +186,7 @@ def message_view(request, message_id):
     context = {'message': message, 'reply_form': None}
     if message.recipient == user:
         form = form_class(initial={
-            'body': {message.sender, message.body},
+            'body': format_reply(message.sender.username, message.body),
             'subject': subject_template,
             'recipient': [message.sender, ]
         })
