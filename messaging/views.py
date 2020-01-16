@@ -101,7 +101,7 @@ def reply(request, message_id):
         form = form_class(initial={
             'body': format_reply(parent.sender.username, parent.body),
             'subject': subject_template,
-            'recipient': [parent.sender, ]
+            'recipient': parent.sender,
         })
     return render(request, template_name, {
         'form': form
@@ -188,7 +188,7 @@ def message_view(request, message_id):
         form = form_class(initial={
             'body': format_reply(message.sender.username, message.body),
             'subject': subject_template,
-            'recipient': [message.sender, ]
+            'recipient': message.sender
         })
         context['reply_form'] = form
     return render(request, template_name, context)
