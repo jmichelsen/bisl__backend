@@ -1,6 +1,8 @@
 from django.urls import path
 
-from messaging.views import *
+from messaging.views import (trash, undelete, delete, message_view,
+                             reply, compose, outbox,
+                             inbox, mailbox)
 
 messaging_patterns = [
     path('mailbox/', mailbox, name='messages_mailbox'),
