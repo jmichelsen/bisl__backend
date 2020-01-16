@@ -23,7 +23,6 @@ class MessageForm(forms.Form):
         subject = self.cleaned_data['subject']
         body = self.cleaned_data['body']
 
-        message_list = []
         message = Message(
             sender=sender,
             recipient=recipient,
@@ -36,6 +35,4 @@ class MessageForm(forms.Form):
             parent_message.replied_at = timezone.now()
             parent_message.save()
         message.save()
-        message_list.append(message)
-        return message_list
 

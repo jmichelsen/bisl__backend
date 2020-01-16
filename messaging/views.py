@@ -56,21 +56,16 @@ def compose(request):
 
     template_name = 'messaging/compose.html'
     form_class = MessageForm
-    success_url = None
 
     if request.method == 'POST':
         form = form_class(request.POST)
         if form.is_valid():
             form.save(sender=request.user)
             messages.info(request, 'Message sent successfully', extra_tags='sent')
-            if success_url is None:
-                success_url = reverse_lazy('messaging:messages_outbox')
-            if 'next' in request.GET:
-                success_url = request.GET['next']
+            success_url = reverse_lazy('messaging:messages_outbox')
             return redirect(success_url)
-
     else:
-        form = form_class(initial={'subject': request.GET.get('subject', '')})
+        form = form_class()
     return render(request, template_name, {'form': form})
 
 
@@ -80,8 +75,8 @@ def reply(request, message_id):
     """Form to reply to a message"""
 
     template_name = 'messaging/compose.html'
+    success_url = reverse_lazy('messaging:messages_inbox')
     form_class = MessageForm
-    success_url = None
     parent = get_object_or_404(Message, id=message_id)
     subject_template = 'Re: ' + parent.subject
 
@@ -89,13 +84,10 @@ def reply(request, message_id):
         raise Http404
 
     if request.method == 'POST':
-
         form = form_class(request.POST)
         if form.is_valid():
             form.save(sender=request.user, parent_message=parent)
             messages.info(request, 'Reply successfully sent', extra_tags='reply')
-            if success_url is None:
-                success_url = reverse_lazy('messaging:messages_inbox')
             return redirect(success_url)
     else:
         form = form_class(initial={
