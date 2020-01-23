@@ -19,34 +19,22 @@ def mailbox(request):
     return render(request, template_name, {'inbox_count': inbox_count(user=request.user)})
 
 
-@login_required
-def inbox(request):
+def inbox_outbox_trash(request, key):
 
-    """Display a list of received messages for the current user"""
+    """Views for Inbox OR Outbox OR Trash"""
 
-    template_name = 'messaging/inbox.html'
-    message_list = Message.objects.inbox_for(request.user)
-    return render(request, template_name, {'message_list': message_list})
-
-
-@login_required
-def outbox(request):
-
-    """Display a list of sent messages for the current user"""
-
-    template_name = 'messaging/outbox.html'
-    message_list = Message.objects.outbox_for(request.user)
-    return render(request, template_name, {'message_list': message_list})
-
-
-@login_required
-def trash(request):
-
-    """Display a list of deleted messages for the user"""
-
-    template_name = 'messaging/trash.html'
-    message_list = Message.objects.trash_for(request.user)
-    return render(request, template_name, {'message_list': message_list})
+    if key == 'inbox':
+        message_list = Message.objects.inbox_for(request.user)
+        template_name = 'messaging/inbox.html'
+        return render(request, template_name, {'message_list': message_list})
+    elif key == 'outbox':
+        message_list = Message.objects.outbox_for(request.user)
+        template_name = 'messaging/outbox.html'
+        return render(request, template_name, {'message_list': message_list})
+    elif key == 'trash':
+        message_list = Message.objects.trash_for(request.user)
+        template_name = 'messaging/trash.html'
+        return render(request, template_name, {'message_list': message_list})
 
 
 @login_required
@@ -75,18 +63,19 @@ def reply(request, message_id):
     """Form to reply to a message"""
 
     template_name = 'messaging/compose.html'
+    user = request.user
     success_url = reverse_lazy('messaging:messages_inbox')
     form_class = MessageForm
     parent = get_object_or_404(Message, id=message_id)
     subject_template = 'Re: ' + parent.subject
 
-    if parent.sender != request.user and parent.recipient != request.user:
+    if parent.sender != user and parent.recipient != user:
         raise Http404
 
     if request.method == 'POST':
         form = form_class(request.POST)
         if form.is_valid():
-            form.save(sender=request.user, parent_message=parent)
+            form.save(sender=user, parent_message=parent)
             messages.info(request, 'Reply successfully sent', extra_tags='reply')
             return redirect(success_url)
     else:
