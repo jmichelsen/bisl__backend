@@ -19,6 +19,7 @@ def mailbox(request):
     return render(request, template_name, {'inbox_count': inbox_count(user=request.user)})
 
 
+@login_required
 def inbox_outbox_trash(request, key):
 
     """Views for Inbox OR Outbox OR Trash"""
@@ -84,9 +85,7 @@ def reply(request, message_id):
             'subject': subject_template,
             'recipient': parent.sender,
         })
-    return render(request, template_name, {
-        'form': form
-    })
+    return render(request, template_name, {'form': form})
 
 
 @login_required
