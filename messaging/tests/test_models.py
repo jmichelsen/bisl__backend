@@ -5,7 +5,7 @@ from django.utils import timezone
 from messaging.models import Message
 
 
-class TestRecipeModel(TestCase):
+class TestMessageModel(TestCase):
     def setUp(self):
         super().setUp()
         self.user1 = get_user_model().objects.create(username='user1')

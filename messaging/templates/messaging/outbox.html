@@ -6,7 +6,9 @@
 {% for message in messages %}
     <ul>
     {% if 'delete' in message.tags %}
-        <li class="{{ message.tags }}">{{ message }}</li>
+        <li>{{ message }}</li>
+    {% elif 'sent' in message.tags %}
+        <li>{{ message }}</li>
     </ul>
 {% endif %}
 {% endfor %}
