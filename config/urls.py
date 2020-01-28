@@ -17,6 +17,7 @@ from django.urls import path, include
 from django.contrib import admin
 from common.urls import common_patterns
 from api.urls import api_patterns
+from messaging.urls import messaging_patterns
 
 from recipes.urls import recipe_patterns
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('api/', include((api_patterns, 'api'))),
     path('accounts/', include('allauth.urls')),
     path('recipe/', include((recipe_patterns, 'recipes'))),
+    path('messages/', include((messaging_patterns, 'messaging'))),
 
 ]
 

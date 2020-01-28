@@ -1,0 +1,26 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+<h1>Deleted Messages</h1>
+{% if message_list %}
+<table>
+    <thead>
+        <tr><th>Sender</th><th>Subject</th><th>Date</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+{% for message in message_list %}
+    <tr>
+        <td>{{ message.sender }}</td>
+        <td>
+        {{ message.subject }}
+        </td>
+        <td>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>
+        <td><a href="{% url 'messaging:messages_undelete' message.id %}">undelete</a></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No messages</p>
+{% endif %}
+{% endblock %}

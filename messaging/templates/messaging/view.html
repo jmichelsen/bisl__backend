@@ -1,0 +1,32 @@
+{% extends 'common/__base.html' %}
+
+{% block content %}
+<h1>View Message</h1>
+<dl>
+    <dt>Subject</dt>
+    <dd><strong>{{ message.subject }}</strong></dd>
+    <dt>Sender</dt>
+    <dd>{{ message.sender }}</dd>
+    <dt>Date</dt>
+    <dd>{{ message.sent_at|date:_("DATETIME_FORMAT")}}</dd>
+    <dt>Recipient</dt>
+    <dd>{{ message.recipient }}</dd>
+</dl>
+{{ message.body|linebreaksbr }}<br /><br />
+
+{% ifequal message.recipient.pk user.pk %}
+<a href="{% url 'messaging:messages_reply' message.id %}">Reply</a>
+{% endifequal %}
+<a href="{% url 'messaging:messages_delete' message.id %}">Delete</a>
+
+{% if reply_form %}
+<h1>Compose Reply </h1>
+<form action="{% url 'messaging:messages_reply' message.id %}" method="post">
+{% csrf_token %}
+<table>
+{{ reply_form.as_table }}
+</table>
+<input class="btn-lg badge-success" type="submit" value="Send"/>
+</form>
+{% endif %}
+{% endblock %}

@@ -3,6 +3,7 @@
 {% block content %}
     <div class="container-fluid">
         <h1 class="display-4">Recipe Details</h1>
+        <p class="lead">Submitted By: {{ recipe.user }}</p>
         <p class="lead">{{ recipe.title }}</p>
         <p>{{ recipe.description }}</p>
         <div>
@@ -15,6 +16,12 @@
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
         <p>Difficulty: {{ recipe.difficulty }}</p>
+        {% if recipe.user == user or perms.recipes.change_recipe %}
+            <a class="btn btn-outline-secondary" href="{% url "recipes:update" recipe.pk %}">edit</a>
+        {% endif %}
+        {% if recipe.user == user or perms.recipes.delete_recipe %}
+            <a class="btn btn-danger"href="{% url "recipes:delete" recipe.pk %}">delete</a>
+        {% endif %}
         <a class="btn btn-outline-primary" href="{% url "recipes:list" %}">Back</a>
     </div>
 {% endblock content %}

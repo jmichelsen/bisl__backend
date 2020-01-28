@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # local apps
     'common',
     'comments',
+    'messaging',
     'recipes',
     'api',
 
@@ -89,7 +90,7 @@ SITE_ID = 1
 
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
-LOGIN_REDIRECT_URL = '/common/health-check/'
+LOGIN_REDIRECT_URL = '/recipe/list/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
