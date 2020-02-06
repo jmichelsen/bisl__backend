@@ -4,14 +4,20 @@
     <div class="container-fluid">
         <h1>Recipes</h1>
         <a href="{% url "recipes:filter" %}">Search by Ingredient?</a>
+        <div class="float-md-right">
+            {% if user.is_authenticated %}
+                {{ user.username }}
+                <a href="{% url "account_logout" %}">Logout</a>
+            {% else %}
+                <a href="{% url "account_login" %}">Login</a>
+            {% endif %}
+        </div>
         <div>
             <ul>
             {% for recipe in recipe_list %}
                 <li class="list-group-item">
                     <h4>{{ recipe.title }}</h4><br>
                     <a href="{% url "recipes:detail" recipe.pk %}">view</a>
-                    <a href="{% url "recipes:update" recipe.pk %}">edit</a>
-                    <a href="{% url "recipes:delete" recipe.pk %}">delete</a>
                 </li>
                 <br>
             {% endfor %}

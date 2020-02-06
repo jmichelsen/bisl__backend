@@ -1,17 +1,23 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView)
 
+from recipes.mixins import AdminOrOwnerPermissionMixin
 from recipes.models import Recipe
 
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(LoginRequiredMixin, CreateView):
     """
     View to create a recipe
     """
     model = Recipe
-    fields = ('user', 'title', 'description', 'servings', 'ingredients', 'preparation_time',
+    fields = ('title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty', )
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('recipes:detail', kwargs={'pk': self.object.pk})
@@ -36,21 +42,27 @@ class RecipeDetailView(DetailView):
         return context
 
 
-class RecipeUpdateView(UpdateView):
+class RecipeUpdateView(AdminOrOwnerPermissionMixin, UpdateView):
     """
-    View to update a recipe
+    View to delete a recipe
     """
+    permission_required = 'recipes.change_recipe'
     model = Recipe
     fields = ('title', 'description', 'servings', 'ingredients', 'preparation_time',
               'cook_time', 'difficulty', )
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
     def get_success_url(self):
-        return reverse_lazy('recipes:detail', kwargs={'pk': self.object.id})
+        return reverse_lazy('recipes:detail', kwargs={'pk': self.object.pk})
 
 
-class RecipeDeleteView(DeleteView):
+class RecipeDeleteView(AdminOrOwnerPermissionMixin, DeleteView):
     """
     View to delete a recipe
     """
+    permission_required = 'recipes.delete_recipe'
     model = Recipe
     success_url = reverse_lazy('recipes:list')
