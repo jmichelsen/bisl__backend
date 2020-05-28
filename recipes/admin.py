@@ -11,3 +11,4 @@ admin.site.register(Step)
 admin.site.register(Nutrition)
 admin.site.register(Tip)
 
+
