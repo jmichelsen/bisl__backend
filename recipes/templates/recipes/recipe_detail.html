@@ -16,6 +16,8 @@
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
         <p>Difficulty: {{ recipe.difficulty }}</p>
+        <p>Stars: {{ recipe.stars.count }}</p>
+
         {% if recipe.user == user or perms.recipes.change_recipe %}
             <a class="btn btn-outline-secondary" href="{% url "recipes:update" recipe.pk %}">edit</a>
         {% endif %}

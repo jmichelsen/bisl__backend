@@ -18,6 +18,7 @@
                 <li class="list-group-item">
                     <h4>{{ recipe.title }}</h4><br>
                     <a href="{% url "recipes:detail" recipe.pk %}">view</a>
+                    <p>Stars: {{ recipe.stars.count }}</p>
                 </li>
                 <br>
             {% endfor %}
