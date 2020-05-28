@@ -7,7 +7,7 @@
         <div class="float-md-right">
             {% if user.is_authenticated %}
                 {{ user.username }}
-                <a href="{% url "recipes:starred" %}">Starred</a>
+                <a href="{% url "recipes:starred" %}">My Saved Recipes</a>
                 <a href="{% url "account_logout" %}">Logout</a>
             {% else %}
                 <a href="{% url "account_login" %}">Login</a>
