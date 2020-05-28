@@ -12,7 +12,7 @@ recipe_patterns = [
     path('create/', RecipeCreateView.as_view(), name='create'),
     path('update/<int:pk>/', RecipeUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', RecipeDeleteView.as_view(), name='delete'),
-    path('detail/<int:pk>/star/', RecipeStarToggle.as_view(), name='star-up-toggle'),
+    path('detail/<int:pk>/star/', RecipeStarToggle.as_view(), name='star-toggle'),
     path('detail/<int:pk>/', RecipeDetailView.as_view(), name='detail'),
 
 ]
