@@ -45,6 +45,10 @@ class RecipeDetailView(DetailView):
 
 class RecipeStarToggle(RedirectView):
 
+    """
+    Lets user give and remove a star to a recipe
+    """
+
     def get_redirect_url(self, *args, **kwargs):
         pk = self.kwargs.get("pk")
         recipe = get_object_or_404(Recipe, pk=pk)
@@ -58,6 +62,10 @@ class RecipeStarToggle(RedirectView):
 
 
 class MyStarredRecipes(ListView):
+
+    """
+    View that shows a user their starred(favorite) recipes
+    """
 
     model = Recipe
 
