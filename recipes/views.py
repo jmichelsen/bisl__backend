@@ -57,6 +57,14 @@ class RecipeStarToggle(RedirectView):
         return reverse('recipes:detail', args=[recipe.pk])
 
 
+class MyStarredRecipes(ListView):
+
+    model = Recipe
+
+    def get_queryset(self):
+        return Recipe.objects.filter(stars__username=self.request.user.username)
+
+
 class RecipeUpdateView(AdminOrOwnerPermissionMixin, UpdateView):
     """
     View to delete a recipe
