@@ -24,6 +24,28 @@
             <a href={% url 'recipes:star-toggle' recipe.pk %}>Star up</a><br>
         {% endif %}
 
+        {% for comment in comments %}
+            {{ comment }}
+        {% endfor %}
+
+    <form action="" method="POST"> {% csrf_token %}
+        <ul class="form-group">
+        {{ form }}
+        </ul>
+        <input type="submit" value="Submit" />
+    </form>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags == 'admin_approval' %} class="{{ message.tags }}"{% endif %}>
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
         {% if recipe.user == user or perms.recipes.change_recipe %}
             <a class="btn btn-outline-secondary" href="{% url "recipes:update" recipe.pk %}">edit</a>
         {% endif %}

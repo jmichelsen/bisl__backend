@@ -11,6 +11,7 @@ from measurement.measures import Volume, Weight, Energy
 from common.models import BaseModel
 from common.utils import get_system_user
 from recipes.constants import DIFFICULTY_CHOICES
+from comments.models import Comment
 
 
 class Recipe(BaseModel):
@@ -86,6 +87,12 @@ class Recipe(BaseModel):
         if not desired_yield:
             return self
         return MultipliedRecipeSerializer(self, context={'desired_yield': desired_yield}).data
+
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
+        return qs
 
 
 class Ingredient(BaseModel):

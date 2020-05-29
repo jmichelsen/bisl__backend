@@ -1,11 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import (CreateView, DetailView, DeleteView,
                                   ListView, UpdateView, RedirectView)
+from django.views.generic.edit import FormMixin
 
 from recipes.mixins import AdminOrOwnerPermissionMixin
 from recipes.models import Recipe
+
+from comments.forms import CommentForm
 
 
 class RecipeCreateView(LoginRequiredMixin, CreateView):
@@ -31,16 +36,36 @@ class RecipeListView(ListView):
     model = Recipe
 
 
-class RecipeDetailView(DetailView):
+class RecipeDetailView(FormMixin, DetailView):
     """
     View to detail a single recipe
     """
     model = Recipe
+    form_class = CommentForm
+    success_message = 'Comment submitted. Awaiting approval.'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ingredients'] = self.object.ingredients.all()
+        context['comments'] = self.object.comments.filter(active=True)
+        context['form'] = self.get_form()
         return context
+
+    # Add a post method for users to submit comments
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        form.instance.author = request.user
+        if form.is_valid():
+            messages.success(request, 'Comment submitted. Awaiting approval', extra_tags='admin_approval')
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.recipe = self.object
+        form.save()
+        return HttpResponseRedirect(self.request.path_info)
 
 
 class RecipeStarToggle(RedirectView):
