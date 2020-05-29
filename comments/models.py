@@ -7,7 +7,7 @@ from common.models import BaseModel
 
 class Comment(BaseModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE)
+    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
 
     class Meta:
