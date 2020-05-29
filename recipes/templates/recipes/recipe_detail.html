@@ -25,7 +25,8 @@
         {% endif %}
 
         {% for comment in comments %}
-            {{ comment }}
+            {{ comment.author }} :
+            {{ comment.text }}<br>
         {% endfor %}
 
     <form action="" method="POST"> {% csrf_token %}
