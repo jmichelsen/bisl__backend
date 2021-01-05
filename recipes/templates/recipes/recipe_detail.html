@@ -16,6 +16,14 @@
         <p>Cook-time: {{ recipe.cook_time }}</p>
         <p>Servings: {{ recipe.servings }}</p>
         <p>Difficulty: {{ recipe.difficulty }}</p>
+        <p>Stars: {{ recipe.stars.count }}<br></p>
+
+        {% if request.user in recipe.stars.all %}
+            <a href={% url 'recipes:star-toggle' recipe.pk %}>Star down</a><br>
+        {% else %}
+            <a href={% url 'recipes:star-toggle' recipe.pk %}>Star up</a><br>
+        {% endif %}
+
         {% if recipe.user == user or perms.recipes.change_recipe %}
             <a class="btn btn-outline-secondary" href="{% url "recipes:update" recipe.pk %}">edit</a>
         {% endif %}

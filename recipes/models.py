@@ -28,6 +28,7 @@ class Recipe(BaseModel):
     max_servings = models.PositiveIntegerField(default=1)
     difficulty = models.SmallIntegerField(choices=DIFFICULTY_CHOICES)
     votes = models.ManyToManyField(AUTH_USER_MODEL, related_name='voted_recipes', through='recipes.Vote')
+    stars = models.ManyToManyField(AUTH_USER_MODEL, blank=True, related_name='recipe_stars')
 
     class Meta:
         ordering = ('-created_at', )
